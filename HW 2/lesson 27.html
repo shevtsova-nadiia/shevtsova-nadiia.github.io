@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      main {
+        display: flex;
+        gap: 20px;
+      }
+      section {
+        border: 1px solid gray;
+        width: 70%;
+      }
+      aside {
+        border: 1px solid gray;
+        width: 30%;
+      }
+      .movie {
+        width: 275px;
+        height: 300px;
+        border: 1px solid gray;
+        text-align: center;
+      }
+      .movie-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      .add-list {
+        border: 1px solid gray;
+        text-align: center;
+        display: inline-block;
+
+        h3{
+            margin: 0;
+            display: inline-block;
+        }
+      }
+      .favoritemovie-list {
+        display: flex; 
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      img {
+        width: 150px;
+        height: 200px;
+        margin: auto;
+        display: block;
+      }
+      h3 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>Movies</h1>
+        <div class="movie-list">
+        </div>
+      </section>
+      <aside>
+        <h1>Favorites</h1>
+        <div class="favoritemovie-list">
+
+          </div>
+        </div>
+      </aside>
+    </main>
+    <script src="lesson 27_1.js" type="module"></script>
+  </body>
+</html>
