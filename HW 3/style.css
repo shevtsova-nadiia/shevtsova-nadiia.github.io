@@ -1,0 +1,26 @@
+.main{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.card-user{
+    border: 1px solid gray; 
+    background-color: rgb(226, 227, 228);
+    display: flex;
+    width: 500px;
+    height: auto;
+    border-radius: 15px;
+    margin: 5px;
+}
+img {
+    border-radius: 50%;
+    padding: 10px;
+}
+.foto-name {
+    text-align: center;
+    width: 200px;
+    border-right: 1px solid gray;
+}
+.info{
+    padding: 10px;
+} 
