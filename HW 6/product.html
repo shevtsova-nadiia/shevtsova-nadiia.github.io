@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="product-page">
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const url = "https://solar-poised-salad.glitch.me/nadiia";
+    const productId = location.search.slice(11);
+    console.log(productId);
+    const getPage = async function () {
+        try {
+            //const response = await axios (`${url+"/"+productId}`);
+            const response = await axios (`${url+"/"+productId}`);
+            console.log(response.data);
+            const divPage = document.querySelector(".product-page");
+            console.log(divPage);
+            divPage.innerHTML="";
+            const productPage=`
+            <div class="product-img">
+            <img src="${response.data.imageUrl}">
+            </div>
+            <div class="product-info">
+            <h4 class="card-title">${response.data.title}</h4>
+            <h6 class="card-text">${response.data.description}</h6>
+            <h5 class="card-price">${response.data.price}</h5>
+            <h5 class="card-id">${response.data.id}</h5>
+            <button id="${response.data.id}" class="save-btn">Save</button>
+            <button id="${response.data.id}" class="add-btn">Add to Cart</button>
+            </div>`
+            divPage.insertAdjacentHTML("beforeend", productPage);
+           // });           
+        } catch (error) {
+           console.log(error); 
+        }
+    };
+    getPage();
+
+
+
+
+
+</script>
+    <script src="product.html"></script>
+</body>
+</html>

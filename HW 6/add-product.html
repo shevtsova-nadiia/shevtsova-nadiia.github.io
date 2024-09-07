@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+        border: 2px solid gray;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        height: 550px;
+        padding: 30px;
+      }
+       .title-inp, .url-inp, .price-inp{
+        width: 98%;
+        height: 30px;
+        margin-bottom: 20px;
+      }
+      .description-inp{
+        width: 98%;
+        height: 120px;
+        margin-bottom: 20px;      
+      }
+      h1 {
+        text-align: center;
+      }
+      #add-product {
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        height: 36px;
+      }
+    </style>
+</head>
+<body>
+
+    <div class="main">
+        <h1>Add product</h1>
+        <div class="product-cart">
+          <label for="title">Title</label>
+          <input type="text" class="title-inp"/><br>
+          <label for="imageUrl">Image URL</label>
+          <input type="text" class="url-inp"/><br>
+          <label for="description">Description</label>
+          <textarea class="description-inp" rows="8" cols="">
+          </textarea>
+          <label for="price">Price</label>
+          <input type="number" class="price-inp"/>
+        </div>
+        <div id="button">
+            <button id="add-product">Add product</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const url = "https://solar-poised-salad.glitch.me/nadiia";
+
+        const titleInp = document.querySelector(".title-inp");
+        const urlInp = document.querySelector(".url-inp");
+        const descriptionInp = document.querySelector(".description-inp");
+        const priceInp = document.querySelector(".price-inp");
+        const addBtn = document.querySelector("#add-product");
+
+        addBtn.addEventListener("click", function (){
+          const funAddProduct = async function () {
+            try {
+        const product = {
+        imageUrl: urlInp.value,
+        title: titleInp.value,
+        price: priceInp.value,
+        description: descriptionInp.value,
+        };
+        const response = await axios.post(url, product);
+        console.log(response.data);
+        } catch (error) {
+        console.log(error);
+        };
+        };
+        funAddProduct();
+        });
+
+    </script>
+    <script src="add-product.html" type="module"></script>
+    
+</body>
+</html>

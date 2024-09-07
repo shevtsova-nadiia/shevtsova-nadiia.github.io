@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style_1.css">
+</head>
+<body>
+    <body>
+        <div class="div-head">
+            <h1>Add to Cart</h1>
+        </div>
+        <div class="card-list">
+        </div>
+    <script>
+    const addListInPage = JSON.parse(localStorage.getItem("AddArr")) || [];
+    console.log(addListInPage);
+
+    const listProducts = (arr) => {
+    const divCard = document.querySelector(".card-list");
+    divCard.innerHTML="";
+    arr.forEach(product => {
+        const cardBox = `
+        <div class="card" style="width: 19rem;">
+        <img src="${product.imageUrl}" class="card-img">
+        <div class="card-box">
+        <h4 class="card-title">${product.title}</h4>
+        <h6 class="card-text">${product.description}</h6>
+        <h5 class="card-price">${product.price}</h5>
+        <h5 class="card-id">${product.id}</h5>
+        <button data-product-id="${product.id}" class="buy-btn">Buy</button>
+        <button data-product-id="${product.id}" class="remove-btn">Remove from Cart</button>
+        </div>
+        </div>`
+        divCard.insertAdjacentHTML("beforeend", cardBox); 
+    });
+
+//remove from the cart list
+const removeBtn = document.querySelectorAll(".remove-btn");
+removeBtn.forEach((btnDelete, i)=>{
+  btnDelete.addEventListener("click", function(){      
+    console.log(arr);
+    arr.splice(i, 1);
+    console.log(arr);
+    listProducts(arr);
+    localStorage.setItem("AddArrInPage", JSON.stringify(addListInPage));
+  })});
+
+  const buyBtn = document.querySelectorAll(".buy-btn");
+  buyBtn.forEach((btnBuy)=>{
+    btnBuy.addEventListener("click", function () {
+    alert("Congratulation. You bought it.");
+  });
+  });
+
+};
+listProducts(addListInPage);
+
+    </script>
+    
+    <script src="toCart.html" type="module"></script>
+</body>
+</html>

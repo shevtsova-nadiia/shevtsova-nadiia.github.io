@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card-list">
+    </div>
+ 
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+    const url = "https://solar-poised-salad.glitch.me/nadiia";
+
+    const listProducts = (arr) => {
+    const divCard = document.querySelector(".card-list");
+    divCard.innerHTML="";
+    arr.forEach(product => {
+        const cardBox = `
+        <div class="card" style="width: 19rem;">
+        <img src="${product.imageUrl}" class="card-img">
+        <div class="card-box">
+        <h4 class="card-title">${product.title}</h4>
+        <h6 class="card-text">${product.description}</h6>
+        <h5 class="card-price">${product.price}</h5>
+        <h5 class="card-id">${product.id}</h5>
+        <button data-product-id="${product.id}" class="edit-btn">Edit</button>
+        <button data-product-id="${product.id}" class="remove-btn">Remove</button>
+        </div>
+        </div>`
+        divCard.insertAdjacentHTML("beforeend", cardBox); 
+    });
+};
+
+const funRemoveBtn = function (results) {
+    const removeBtn = document.querySelectorAll(".remove-btn");
+    removeBtn.forEach((btnDelete)=>{
+        btnDelete.addEventListener("click", function(){    
+        const deleteProduct = results.find((product) => product.id == btnDelete.dataset.productId);
+        console.log(deleteProduct);
+        const funRemoveProduct = async function () {
+            try {
+        const response = await axios.delete(url, deleteProduct);
+        console.log(response.data);
+        listProducts(response.data);
+        } catch (error) {
+        console.log(error);
+        }};
+        funRemoveProduct();
+        });
+    });
+};
+
+const getProducts = async function () {
+    try {
+        const response = await axios(url);
+        console.log(response.data); 
+        listProducts(response.data); 
+        funRemoveBtn(response.data);
+    } catch (error) {
+        console.log(error);  
+    }
+};
+    getProducts();
+
+    </script>
+    <script src="admin_page.html" type="module"></script>
+</body>
+</html>
