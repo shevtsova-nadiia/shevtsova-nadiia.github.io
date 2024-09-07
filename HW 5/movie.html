@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style_4.css" />
+  </head>
+  <body>
+    <div class="movie-page"> </div>
+    <div class="movie-cast"></div>
+    <div class="player-div"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+            const apiKey = "?api_key=d698eb01fcd2ab11b2c8422e9010e478";
+            const urlImage = "https://image.tmdb.org/t/p/w500";
+            const urlMovie = "https://api.themoviedb.org/3/movie/";
+            const urlYouTube = "https://www.youtube.com/embed/";
+
+            // show trailer
+            const functionPlayTrailer = function (arr,div){
+            const getVideo = async function () {
+              try {
+                const {data} = await axios (`${urlMovie+arr.id+"/videos"+apiKey}`);
+                console.log(data); 
+                let videoKey = "";
+                data.results.forEach(movie=>{
+                  if(movie.name == "Official Trailer"){
+                    videoKey = movie.key;
+                }});
+                console.log(videoKey);
+                const divPlayer = document.querySelector(".player-div");
+                divPlayer.innerHTML= "";
+                const video = `
+                <div class="player-movie">
+                <iframe width="800" height="500" src=${urlYouTube+videoKey}>
+                </iframe>
+               </div>`
+              divPlayer.insertAdjacentHTML("beforeend", video);
+              } catch (error) {
+              console.log(error);
+              }}
+                getVideo();
+          };
+
+          // show movie cast
+          const funMovieCast = function (arr){
+            const getCast = async function (){
+              try {
+                const {data:{cast}} = await axios (`${urlMovie+arr.id+"/credits"+apiKey}`);
+                console.log(cast);
+                const castArr=[];
+                cast.forEach(movie=>{
+                  castArr.push(movie.name);
+                });
+                let textCast = castArr.join(", ");
+                const divCast = document.querySelector(".movie-cast");
+                divCast.innerHTML="";
+                const castMovie = 
+                `<h5 class="movie-cast">Cast: ${textCast}</h5>`;
+                divCast.insertAdjacentHTML("beforeend", castMovie);
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          getCast();
+          };
+
+          // get movie page
+          const movieId = location.search.slice(9);
+          const getMovie = async function () {
+              try {
+              const {data} = await axios (`${urlMovie+movieId+apiKey}`);
+              console.log(data);
+              const genreArr = [];
+              data.genres.forEach(movie => {
+                    genreArr.push(movie.name)
+                });
+                let textGenre = genreArr.join(", ");
+
+                // show page movie
+              const divMovie = document.querySelector(".movie-page");
+              divMovie.innerHTML="";
+              const pageMovie = 
+                  `<div class="img-movie">
+                    <img class="movie-image" src="${urlImage+data.poster_path}" alt="Movie Poster">
+                    </div>
+                     <div class="info-movie">
+                         <h3 class="movie-title">${data.title}</h3>
+                         <h4 class="movie-date">Release: ${data.release_date}</h4>
+                         <h5 class="movie-vote">${data.vote_average.toFixed(1)}</h5>
+                         <h5 class="movie-genre">Genre: ${textGenre}</h5>
+                         <h5 class="movie-overview">${data.overview}</h5>
+                         </div>`;
+                       divMovie.insertAdjacentHTML("beforeend", pageMovie);
+
+                      functionPlayTrailer(data,divMovie);
+                      funMovieCast(data);
+
+              // it is end of the function
+              } catch (error) {
+                  console.log(error);
+              }
+          };
+          getMovie();
+
+    </script>
+    <script src="movie.html"></script>
+  </body>
+</html>
