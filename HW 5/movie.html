@@ -26,8 +26,13 @@
                 console.log(data); 
                 let videoKey = "";
                 data.results.forEach(movie=>{
+                  console.log(movie[0]);
                   if(movie.name == "Official Trailer"){
                     videoKey = movie.key;
+                    console.log(videoKey);
+                }else{
+                  videoKey = [0].key;
+                  console.log(videoKey);
                 }});
                 console.log(videoKey);
                 const divPlayer = document.querySelector(".player-div");
