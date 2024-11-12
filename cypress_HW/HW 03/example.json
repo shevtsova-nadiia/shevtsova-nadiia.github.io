@@ -1,0 +1,24 @@
+{
+  "name": "Using fixtures to represent data",
+  "email": "hello@cypress.io",
+  "body": "Fixtures are a great way to mock data for responses to routes",
+  "username": "TechGlobal",
+  "password": "Test1234",
+  "city": "Des Plaines",
+  "zipCode": "60018",
+  "footerColumnNames": ["Get to Know Us", "Make Money with Us", "Amazon Payment Products", "Let Us Help You"],
+  "headerTable" : ["Rank", "Company", "Employees", "Country"],
+  "labelBookingForm" : ["Trip type", "One way", "Round trip", "Cabin Class", "From", "To", "Depart", "Return", "Number of passengers", "Passenger 1", "BOOK"],
+  "selectDefaultNumber&Passenger" : ["1", "Adult (16-64)"],
+  "arrTestCase_3" : ["Business", "Illinois", "Florida", "1", "Senior (65+)"],
+  "dateTestCase_3" : ["11/19/2024"],
+  "arrTestCase_3_DepartInfo" : ["IL to FL", "Tue Nov 19 2024", "Number of Passengers: 1", "Passenger 1: Senior (65+)", "Cabin class: Business"],
+
+  "arrTestCase_4" : ["First", "California", "Illinois", "1", "Adult (16-64)"],
+  "dateTestCase_4" : ["11/19/2024", "12/12/2024"],
+  "arrTestCase_4_DepartInfo" : ["CA to IL", "Tue Nov 19 2024", "IL to CA", "Thu Dec 12 2024", "Number of Passengers: 1", "Passenger 1: Adult (16-64)", "Cabin class: First"],
+
+  "arrTestCase_5" : ["Premium Economy", "New York", "Texas", "2", "Adult (16-64)", "Child (2-11)"],
+  "dateTestCase_5" : ["11/13/2024"],
+  "arrTestCase_5_DepartInfo" : ["NY to TX", "Wed Nov 13 2024", "Number of Passengers: 2", "Passenger 1: Adult (16-64)", "Passenger 2: Child (2-11)", "Cabin class: Premium Economy"]
+}
