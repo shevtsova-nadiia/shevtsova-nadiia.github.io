@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "5e9bfbd0-e8c0-4ffa-a619-bffc141cce97",
+		"name": "Nadia Shevtsova Go Rest API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40694826"
+	},
+	"item": [
+		{
+			"name": "Get a list of all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const genders = [\"male\", \"female\"];",
+							"const randomGender = Math.floor(Math.random() * 2)",
+							"console.log(randomGender)",
+							"pm.environment.set(\"randomGender\", genders[randomGender]);",
+							"",
+							"const status = [\"active\", \"inactive\"];",
+							"const randomStatus = Math.floor(Math.random() * 2)",
+							"pm.environment.set(\"randomStatus\", status[randomStatus]);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"const jsonData = pm.response.json()",
+							"const userId = pm.environment.set(\"userId\", jsonData.id);",
+							"const userEmail =",
+							"    pm.environment.set(\"userEmail\", jsonData.email);",
+							"",
+							"const userName =",
+							"    pm.environment.set(\"userName\", jsonData.name);",
+							"",
+							"pm.test(\"Validate name\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"John Doe\");",
+							"});",
+							"// 2 way",
+							"pm.test(\"Validate name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"John Doe\");",
+							"});",
+							"",
+							"pm.test(\"Validate gender\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.gender).to.eql(\"male\");",
+							"});",
+							"",
+							"",
+							"",
+							" "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    //\"name\": \"{{$randomFullName}}\",\n    \"name\": \"John Doe\",\n    //\"email\": \"{{$randomEmail}}\",\n    \"email\": \"johndoe@gmail.com\",\n    //\"gender\": \"{{randomGender}}\",\n    \"gender\": \"male\",\n    //\"status\": \"{{randomStatus}}\"\n    \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"const userId = pm.environment.get(\"userId\");",
+							"pm.test(\"Validate userId\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(userId);",
+							"});",
+							"",
+							"const userEmail = pm.environment.get(\"userEmail\");",
+							"pm.test(\"Validate userEmail\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(userEmail);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"const jsonData = pm.response.json()",
+							"const updateName = pm.environment.get(\"updateName\");",
+							"const userEmail = pm.environment.get(\"userEmail\");",
+							"pm.test(\"Validate updateName\", function () {",
+							"    pm.expect(jsonData.name).to.eql(updateName)",
+							"});",
+							"pm.test(\"Validate email\", function () {",
+							"    pm.expect(jsonData.email).to.eql(userEmail);",
+							"});",
+							"pm.test(\"Validate gender\", function () {",
+							"    pm.expect(jsonData.gender).to.eql(\"female\");",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const userEmail = pm.environment.get(\"userEmail\");",
+							"",
+							"const updateName = \"NewUser\" + Math.floor(Math.random() * 1000);",
+							"pm.environment.set(\"updateName\", updateName);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{updateName}}\",\n    \"email\": \"{{userEmail}}\",\n    \"gender\": \"female\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get updated user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"const jsonData = pm.response.json()",
+							"const updateName = pm.environment.get(\"updateName\");",
+							"const userEmail = pm.environment.get(\"userEmail\");",
+							"pm.test(\"Validate updateName\", function () {",
+							"    pm.expect(jsonData.name).to.eql(updateName);",
+							"});",
+							"pm.test(\"Validate email\", function () {",
+							"    pm.expect(jsonData.email).to.eql(userEmail);",
+							"});",
+							"pm.test(\"Validate gender\", function () {",
+							"    pm.expect(jsonData.gender).to.eql(\"female\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "0314c0df574e9ce7b21df154d863ae2fa9fec81ffb0726a29c232c2993f214c8",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
